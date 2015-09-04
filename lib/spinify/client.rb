@@ -8,7 +8,7 @@ module Spinify
     # Say hi to the world!
     #
     # Example:
-    #   >> Spinify::Client.new(id, key).multi(5).set('formula', "{{>forme_positive}}").get(variables)
+    #   >> Spinify::Client.new(id, key).multi(5).set('formula', "{{>forme_positive}}").variables(vars).get
     #   => spuns...
     #
     # Arguments:
@@ -17,10 +17,11 @@ module Spinify
     #   number: (String)
     #   variables: (Hash)
     include HTTParty
-    base_uri 'http://spinify.apps.turfmedia.com'
 
-    def initialize(id,key)
-      options[:body].merge({
+
+    def initialize(id,key, uri = 'http://spinify.apps.turfmedia.com')
+      @base_uri = uri
+      options[:body].merge!({
         id: id,
         auth_key: key
         })
@@ -29,7 +30,7 @@ module Spinify
 
     def multi(number,n=nil)
       n ||= number*20
-      options[:body].merge({
+      options[:body].merge!({
         multi: true,
         number: number,
         n: n
@@ -42,10 +43,13 @@ module Spinify
       return self
     end
 
+    def variables(vars)
+      options[:body]['variables'] = vars
+      return self
+    end
 
-    def get(variables)
-      options[:body]['variables'] = variables
-      response = self.class.post('/api', options)
+    def get
+      response = self.class.post(@base_uri + '/api', options)
       response
     end
 
@@ -54,7 +58,7 @@ module Spinify
     def options
       @options ||= {
         headers: {
-          "charset" => 'UTF-8', "Content-Type" => 'application/x-www-form-urlencoded' #application/json
+          "charset" => 'UTF-8', "Content-Type" => 'application/x-www-form-urlencoded' #'application/json'#
         },
         body: {}
       }
