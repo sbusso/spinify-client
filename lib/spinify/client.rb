@@ -50,7 +50,7 @@ module Spinify
 
     def get
       response = self.class.post(@base_uri + '/api', options)
-      response
+      response.parsed_response
     end
 
     private
