@@ -22,7 +22,7 @@ module Spinify
     def initialize(id,key)
       options[:body].merge({
         id: id,
-        api_key: key
+        auth_key: key
         })
       return self
     end
