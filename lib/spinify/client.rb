@@ -8,7 +8,7 @@ module Spinify
     # Say hi to the world!
     #
     # Example:
-    #   >> Spinify::Client.new(id, key).multi(5).get(variables)
+    #   >> Spinify::Client.new(id, key).multi(5).set('formula', "{{>forme_positive}}").get(variables)
     #   => spuns...
     #
     # Arguments:
@@ -34,6 +34,11 @@ module Spinify
         number: number,
         n: n
       })
+      return self
+    end
+
+    def set(key, value)
+      options[:body][key] = value
       return self
     end
 
