@@ -38,8 +38,8 @@ module Spinify
       return self
     end
 
-    def set(key, value)
-      options[:body][key] = value
+    def set(opts)
+      opts.each { |key, value|  options[:body][key] = value }
       return self
     end
 
