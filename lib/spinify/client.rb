@@ -19,7 +19,7 @@ module Spinify
     include HTTParty
 
 
-    def initialize(id,key, uri = 'http://spinify.apps.turfmedia.com')
+    def initialize(id,key, uri = 'https://spinify.herokuapp.com')
       @base_uri = uri
       options[:body].merge!({
         id: id,
